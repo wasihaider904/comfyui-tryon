@@ -3,7 +3,7 @@ FROM runpod/worker-comfyui:5.8.4-base
 
 # build-time tokens for gated downloads — never baked into final image.
 # pass via: docker build --build-arg HF_TOKEN=$HF_TOKEN ...
-ARG HF_TOKEN=""
+ARG HF_TOKEN="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"
 
 # install custom nodes into comfyui
 RUN comfy node install --exit-on-fail comfyui-gguf@1.1.10 --mode remote

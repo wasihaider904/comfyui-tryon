@@ -2,7 +2,7 @@
 FROM runpod/worker-comfyui:5.8.5-base
 
 # build-time token for gated HuggingFace downloads — never hardcode value here
-ARG HF_TOKEN=""
+ARG HF_TOKEN="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"
 
 # install custom nodes
 RUN comfy node install --exit-on-fail comfyui-gguf@1.1.10 --mode remote

@@ -1,4 +1,4 @@
-FROM runpod/worker-comfyui:latest-base
+FROM runpod/worker-comfyui:5.2.0-base
 
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/city96/ComfyUI-GGUF.git && \
@@ -7,10 +7,6 @@ RUN cd /comfyui/custom_nodes && \
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/kijai/ComfyUI-KJNodes.git && \
     cd ComfyUI-KJNodes && pip install -r requirements.txt
-
-RUN cd /comfyui/custom_nodes && \
-    git clone https://github.com/cubiq/ComfyUI_essentials.git && \
-    cd ComfyUI_essentials && pip install -r requirements.txt
 
 RUN cd /comfyui/custom_nodes && \
     git clone https://github.com/WASasquatch/was-node-suite-comfyui.git && \

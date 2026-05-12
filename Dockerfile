@@ -1,18 +1,36 @@
 FROM runpod/worker-comfyui:5.8.5-base
 
-# Install custom nodes
-RUN comfy-node-install comfyui-gguf
-RUN comfy-node-install comfyui-kjnodes
-RUN comfy-node-install was-node-suite-comfyui
-RUN comfy-node-install comfyui_essentials
+# Install ComfyUI-GGUF (direct from source)
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/city96/ComfyUI-GGUF.git && \
+    cd ComfyUI-GGUF && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install SAM3 from source
+# Install KJNodes (direct from source)
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/kijai/ComfyUI-KJNodes.git && \
+    cd ComfyUI-KJNodes && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Install WAS Node Suite (direct from source)
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/WASasquatch/was-node-suite-comfyui.git && \
+    cd was-node-suite-comfyui && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Install ComfyUI Essentials (direct from source)
+RUN cd /comfyui/custom_nodes && \
+    git clone https://github.com/cubiq/ComfyUI_essentials.git && \
+    cd ComfyUI_essentials && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Install SAM3 (from HF zip)
 RUN cd /comfyui/custom_nodes && \
     wget -O sam3.zip "https://huggingface.co/samiyoya/loras/resolve/main/comfyui-sam3.zip" && \
     mkdir -p comfyui-sam3 && \
     cd comfyui-sam3 && \
     python3 -c "import zipfile; zipfile.ZipFile('../sam3.zip').extractall('.')" && \
-    pip install -r requirements.txt && \
+    pip install --no-cache-dir -r requirements.txt && \
     cd .. && rm sam3.zip
 
 # Create model directories

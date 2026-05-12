@@ -1,6 +1,16 @@
 FROM runpod/worker-comfyui:5.8.5-base
 
-RUN comfy node install --exit-on-fail comfyui-gguf@1.1.10 --mode remote
-RUN comfy node install --exit-on-fail comfyui-sam3@0.3.10
-RUN git clone https://github.com/kijai/ComfyUI-KJNodes /comfyui/custom_nodes/ComfyUI-KJNodes && cd /comfyui/custom_nodes/ComfyUI-KJNodes && pip install -r requirements.txt
-RUN git clone https://github.com/WASasquatch/was-node-suite-comfyui /comfyui/custom_nodes/was-node-suite-comfyui && cd /comfyui/custom_nodes/was-node-suite-comfyui && pip install -r requirements.txt
+RUN comfy-node-install comfyui-gguf
+RUN comfy-node-install comfyui-kjnodes
+RUN comfy-node-install was-node-suite-comfyui
+RUN comfy-node-install comfyui_essentials
+
+RUN cd /comfyui/custom_nodes && \
+    wget -O sam3.zip "https://huggingface.co/samiyoya/loras/resolve/main/comfyui-sam3.zip" && \
+    mkdir -p comfyui-sam3 && \
+    cd comfyui-sam3 && \
+    python3 -c "import zipfile; zipfile.ZipFile('../sam3.zip').extractall('.')" && \
+    pip install -r requirements.txt && \
+    cd .. && rm sam3.zip
+
+RUN rm -rf /workspace && ln -s /runpod-volume /workspace
